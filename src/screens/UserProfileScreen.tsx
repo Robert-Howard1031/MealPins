@@ -103,21 +103,8 @@ export default function UserProfileScreen({ navigation, route }: { navigation: a
                 {profile.display_name}
               </Text>
               <Text className="text-sm text-ink-600 dark:text-slate-400">@{profile.username}</Text>
-              {profile.bio ? (
-                <Text className="mt-2 text-sm text-ink-600 dark:text-slate-400">{profile.bio}</Text>
-              ) : null}
             </View>
           </View>
-
-          {!isSelf ? (
-            <View className="mt-6">
-              <Button
-                label={following ? 'Following' : 'Follow'}
-                variant={following ? 'secondary' : 'primary'}
-                onPress={toggleFollow}
-              />
-            </View>
-          ) : null}
 
           <View className="mt-6 flex-row justify-around rounded-2xl bg-white/90 py-4 shadow-sm dark:bg-surface-darkMuted">
             <View className="items-center">
@@ -139,6 +126,22 @@ export default function UserProfileScreen({ navigation, route }: { navigation: a
               <Text className="text-xs text-ink-600 dark:text-slate-400">Following</Text>
             </View>
           </View>
+
+          {profile.bio ? (
+            <Text className="mt-4 text-sm text-ink-600 dark:text-slate-400">
+              {profile.bio}
+            </Text>
+          ) : null}
+
+          {!isSelf ? (
+            <View className="mt-6">
+              <Button
+                label={following ? 'Following' : 'Follow'}
+                variant={following ? 'secondary' : 'primary'}
+                onPress={toggleFollow}
+              />
+            </View>
+          ) : null}
 
           <View className="mt-8">
             {posts.length === 0 ? (

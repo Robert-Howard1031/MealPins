@@ -6,10 +6,14 @@ create table if not exists public.profiles (
   id uuid primary key references auth.users on delete cascade,
   username text unique not null,
   display_name text not null,
-  bio text,
+  bio text default '',
   avatar_url text,
   created_at timestamp with time zone default now()
 );
+
+-- Ensure bio defaults to empty string (for existing tables)
+alter table public.profiles alter column bio set default '';
+update public.profiles set bio = '' where bio is null;
 
 create table if not exists public.posts (
   id uuid primary key default gen_random_uuid(),

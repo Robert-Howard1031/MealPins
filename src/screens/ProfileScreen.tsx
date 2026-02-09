@@ -56,11 +56,6 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
             <Text className="text-sm text-ink-600 dark:text-slate-400">
               @{profile?.username || 'username'}
             </Text>
-            {profile?.bio ? (
-              <Text className="mt-2 text-sm text-ink-600 dark:text-slate-400">
-                {profile.bio}
-              </Text>
-            ) : null}
           </View>
         </View>
         <Pressable
@@ -91,6 +86,12 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
           <Text className="text-xs text-ink-600 dark:text-slate-400">Following</Text>
         </View>
       </View>
+
+      {profile?.bio ? (
+        <Text className="mt-4 text-sm text-ink-600 dark:text-slate-400">
+          {profile.bio}
+        </Text>
+      ) : null}
 
       <View className="mt-6">
         <Button

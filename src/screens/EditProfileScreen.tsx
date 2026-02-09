@@ -15,12 +15,14 @@ export default function EditProfileScreen({ navigation }: { navigation: any }) {
 
   const [displayName, setDisplayName] = useState('');
   const [username, setUsername] = useState('');
+  const [bio, setBio] = useState('');
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     setDisplayName(profile?.display_name || '');
     setUsername(profile?.username || '');
-  }, [profile?.id, profile?.display_name, profile?.username]);
+    setBio(profile?.bio || '');
+  }, [profile?.id, profile?.display_name, profile?.username, profile?.bio]);
 
   const handleSave = async () => {
     if (!user?.id) return;
@@ -54,6 +56,7 @@ export default function EditProfileScreen({ navigation }: { navigation: any }) {
       await updateProfile(user.id, {
         display_name: nextDisplay,
         username: nextUsername,
+        bio: bio.trim(),
       });
       await refreshProfile();
       navigation.goBack();
@@ -83,6 +86,13 @@ export default function EditProfileScreen({ navigation }: { navigation: any }) {
           onChangeText={setUsername}
           autoCapitalize="none"
           autoCorrect={false}
+        />
+        <Input
+          label="Bio"
+          value={bio}
+          onChangeText={setBio}
+          multiline
+          className="h-24 py-3"
         />
       </View>
 
