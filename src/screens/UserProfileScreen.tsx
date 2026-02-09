@@ -143,6 +143,8 @@ export default function UserProfileScreen({ navigation, route }: { navigation: a
             </View>
           ) : null}
 
+          <View className="mt-6 h-px bg-ink-300/80 dark:bg-slate-600/70" />
+
           <View className="mt-8">
             {posts.length === 0 ? (
               <EmptyState title="No posts yet" subtitle="This user hasn't shared any meals." />
