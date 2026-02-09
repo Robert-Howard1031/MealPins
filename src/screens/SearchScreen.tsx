@@ -6,8 +6,10 @@ import { Input } from '../components/ui/Input';
 import { Avatar } from '../components/ui/Avatar';
 import { searchProfiles } from '../lib/api';
 import type { Profile } from '../lib/types';
+import { useAuth } from '../providers/AuthProvider';
 
 export default function SearchScreen({ navigation }: { navigation: any }) {
+  const { user } = useAuth();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Profile[]>([]);
   const [loading, setLoading] = useState(false);
@@ -21,7 +23,7 @@ export default function SearchScreen({ navigation }: { navigation: any }) {
       setLoading(true);
       try {
         const data = await searchProfiles(query.trim());
-        setResults(data);
+        setResults(user?.id ? data.filter((profile) => profile.id !== user.id) : data);
       } catch (error) {
         console.warn(error);
       } finally {
