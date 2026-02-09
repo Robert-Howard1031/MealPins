@@ -233,18 +233,21 @@ export default function HomeScreen({ navigation }: { navigation: any }) {
       ) : null}
 
       {selectedPost ? (
-        <View className="absolute inset-0 items-center justify-center px-6">
-          <View className="w-full max-w-md">
-            <PostPreviewCard
-              post={selectedPost}
-              isOwner={selectedPost.user_id === user?.id}
-              onPressPost={() => navigation.navigate('PostDetail', { post: selectedPost })}
-              onPressUser={() =>
-                navigation.navigate('UserProfile', { userId: selectedPost.user_id })
-              }
-              onEdit={() => navigation.navigate('EditPost', { post: selectedPost })}
-              onDelete={() => handleDelete(selectedPost)}
-            />
+        <View className="absolute inset-0">
+          <Pressable className="absolute inset-0" onPress={() => setSelectedPost(null)} />
+          <View className="flex-1 items-center justify-center px-6" pointerEvents="box-none">
+            <Pressable onPress={() => {}} className="w-full max-w-md">
+              <PostPreviewCard
+                post={selectedPost}
+                isOwner={selectedPost.user_id === user?.id}
+                onPressPost={() => navigation.navigate('PostDetail', { post: selectedPost })}
+                onPressUser={() =>
+                  navigation.navigate('UserProfile', { userId: selectedPost.user_id })
+                }
+                onEdit={() => navigation.navigate('EditPost', { post: selectedPost })}
+                onDelete={() => handleDelete(selectedPost)}
+              />
+            </Pressable>
           </View>
         </View>
       ) : null}
