@@ -37,8 +37,11 @@ export default function EditProfileScreen({ navigation }: { navigation: any }) {
       Alert.alert('Username required', 'Please enter a username.');
       return;
     }
-    if (/\s/.test(nextUsername)) {
-      Alert.alert('Invalid username', 'Usernames cannot contain spaces.');
+    if (!/^[a-zA-Z0-9._]+$/.test(nextUsername)) {
+      Alert.alert(
+        'Invalid username',
+        'Usernames can only contain letters, numbers, "." and "_".'
+      );
       return;
     }
 

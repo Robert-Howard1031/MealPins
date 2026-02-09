@@ -4,6 +4,7 @@ import { Alert, KeyboardAvoidingView, Platform, Pressable, Text, View } from 're
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { useAuth } from '../providers/AuthProvider';
+import { isUsernameAvailable } from '../lib/api';
 
 export default function SignUpScreen({ navigation }: any) {
   const { signUp } = useAuth();
@@ -15,11 +16,29 @@ export default function SignUpScreen({ navigation }: any) {
 
   const handleSignUp = async () => {
     try {
+      const nextUsername = username.trim();
+      if (!nextUsername) {
+        Alert.alert('Missing fields', 'Please enter a username.');
+        return;
+      }
+      if (!/^[a-zA-Z0-9._]+$/.test(nextUsername)) {
+        Alert.alert(
+          'Invalid username',
+          'Usernames can only contain letters, numbers, "." and "_".'
+        );
+        return;
+      }
       setLoading(true);
+      const available = await isUsernameAvailable(nextUsername);
+      if (!available) {
+        Alert.alert('Username taken', 'That username is already in use.');
+        setLoading(false);
+        return;
+      }
       await signUp({
         email: email.trim(),
         password,
-        username: username.trim(),
+        username: nextUsername,
         displayName: displayName.trim(),
       });
       Alert.alert('Account created', 'Check your email to confirm the signup if required.');
