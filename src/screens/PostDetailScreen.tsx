@@ -3,7 +3,7 @@ import { Alert, Image, Pressable, ScrollView, Text, View, useWindowDimensions } 
 import { Ionicons } from '@expo/vector-icons';
 
 import { Avatar } from '../components/ui/Avatar';
-import { Button } from '../components/ui/Button';
+import { IconButton } from '../components/ui/IconButton';
 import { formatTimestamp } from '../lib/format';
 import { deletePost } from '../lib/api';
 import type { Post } from '../lib/types';
@@ -60,6 +60,34 @@ export default function PostDetailScreen({ navigation, route }: { navigation: an
         <Ionicons name="chevron-back" size={20} color={iconColor} />
       </Pressable>
 
+      <View className="mb-4 flex-row items-center justify-between">
+        <Pressable
+          onPress={() => navigation.navigate('UserProfile', { userId: post.user_id })}
+          className="flex-row items-center gap-3"
+        >
+          <Avatar uri={post.profile?.avatar_url} name={post.profile?.display_name} size={44} />
+          <View>
+            <Text className="text-base font-semibold text-ink dark:text-white">
+              {post.profile?.display_name || 'User'}
+            </Text>
+            <Text className="text-sm text-ink-600 dark:text-slate-400">
+              @{post.profile?.username || 'username'}
+            </Text>
+          </View>
+        </Pressable>
+
+        {isOwner ? (
+          <View className="flex-row gap-2">
+            <IconButton onPress={() => navigation.navigate('EditPost', { post })}>
+              <Ionicons name="create-outline" size={18} color={iconColor} />
+            </IconButton>
+            <IconButton onPress={handleDelete} className="bg-red-500/10">
+              <Ionicons name="trash-outline" size={18} color="#EF4444" />
+            </IconButton>
+          </View>
+        ) : null}
+      </View>
+
       <View className="overflow-hidden rounded-3xl">
         <ScrollView
           ref={zoomRef}
@@ -94,28 +122,6 @@ export default function PostDetailScreen({ navigation, route }: { navigation: an
           {formatTimestamp(post.created_at)}
         </Text>
       </View>
-
-      <Pressable
-        onPress={() => navigation.navigate('UserProfile', { userId: post.user_id })}
-        className="mt-6 flex-row items-center gap-3"
-      >
-        <Avatar uri={post.profile?.avatar_url} name={post.profile?.display_name} size={44} />
-        <View>
-          <Text className="text-base font-semibold text-ink dark:text-white">
-            {post.profile?.display_name || 'User'}
-          </Text>
-          <Text className="text-sm text-ink-600 dark:text-slate-400">
-            @{post.profile?.username || 'username'}
-          </Text>
-        </View>
-      </Pressable>
-
-      {isOwner ? (
-        <View className="mt-8 gap-3">
-          <Button label="Edit Post" variant="secondary" onPress={() => navigation.navigate('EditPost', { post })} />
-          <Button label="Delete Post" variant="danger" onPress={handleDelete} />
-        </View>
-      ) : null}
 
       <View className="h-24" />
     </ScrollView>

@@ -35,6 +35,31 @@ export function PostPreviewCard({
 
   return (
     <Card className="gap-4">
+      <View className="flex-row items-center justify-between">
+        <Pressable onPress={onPressUser} className="flex-row items-center gap-2">
+          <Avatar uri={post.profile?.avatar_url} name={post.profile?.display_name} size={28} />
+          <View>
+            <Text className="text-sm font-semibold text-ink dark:text-slate-100">
+              {post.profile?.display_name || 'User'}
+            </Text>
+            <Text className="text-xs text-ink-500 dark:text-slate-400">
+              @{post.profile?.username || 'user'}
+            </Text>
+          </View>
+        </Pressable>
+
+        {isOwner ? (
+          <View className="flex-row gap-2">
+            <IconButton onPress={onEdit}>
+              <Ionicons name="create-outline" size={18} color={iconColor} />
+            </IconButton>
+            <IconButton onPress={onDelete} className="bg-red-500/10">
+              <Ionicons name="trash-outline" size={18} color="#EF4444" />
+            </IconButton>
+          </View>
+        ) : null}
+      </View>
+
       <Pressable onPress={onPressPost} className="overflow-hidden rounded-2xl">
         <Image
           source={{ uri: post.image_url }}
@@ -61,25 +86,7 @@ export function PostPreviewCard({
         </Text>
       </View>
 
-      <View className="flex-row items-center justify-between">
-        <Pressable onPress={onPressUser} className="flex-row items-center gap-2">
-          <Avatar uri={post.profile?.avatar_url} name={post.profile?.display_name} size={28} />
-          <Text className="text-sm font-semibold text-ink dark:text-slate-100">
-            @{post.profile?.username || 'user'}
-          </Text>
-        </Pressable>
-
-        {isOwner ? (
-          <View className="flex-row gap-2">
-            <IconButton onPress={onEdit}>
-              <Ionicons name="create-outline" size={18} color={iconColor} />
-            </IconButton>
-            <IconButton onPress={onDelete} className="bg-red-500/10">
-              <Ionicons name="trash-outline" size={18} color="#EF4444" />
-            </IconButton>
-          </View>
-        ) : null}
-      </View>
+      
     </Card>
   );
 }
