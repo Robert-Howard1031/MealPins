@@ -1,5 +1,5 @@
-import React from 'react';
-import { Alert, Image, Pressable, ScrollView, Text, View } from 'react-native';
+import React, { useRef } from 'react';
+import { Alert, Image, Pressable, ScrollView, Text, View, useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { Avatar } from '../components/ui/Avatar';
@@ -16,6 +16,22 @@ export default function PostDetailScreen({ navigation, route }: { navigation: an
   const iconColor = resolvedScheme === 'dark' ? '#F8FAFC' : '#0F172A';
   const { post } = route.params as { post: Post };
   const isOwner = post.user_id === user?.id;
+  const { width } = useWindowDimensions();
+  const imageWidth = width - 48;
+  const imageHeight = 288;
+  const zoomRef = useRef<ScrollView | null>(null);
+  const zoomScaleRef = useRef(1);
+
+  const resetZoom = () => {
+    if (zoomScaleRef.current <= 1.01) return;
+    zoomRef.current?.scrollResponderZoomTo({
+      x: 0,
+      y: 0,
+      width: imageWidth,
+      height: imageHeight,
+      animated: true,
+    });
+  };
 
   const handleDelete = () => {
     Alert.alert('Delete post?', 'This cannot be undone.', [
@@ -44,7 +60,28 @@ export default function PostDetailScreen({ navigation, route }: { navigation: an
         <Ionicons name="chevron-back" size={20} color={iconColor} />
       </Pressable>
 
-      <Image source={{ uri: post.image_url }} className="h-72 w-full rounded-3xl" />
+      <View className="overflow-hidden rounded-3xl">
+        <ScrollView
+          ref={zoomRef}
+          style={{ height: imageHeight }}
+          contentContainerStyle={{ width: imageWidth, height: imageHeight }}
+          minimumZoomScale={1}
+          maximumZoomScale={3}
+          pinchGestureEnabled
+          bouncesZoom
+          onScroll={(event) => {
+            const scale = event.nativeEvent.zoomScale ?? 1;
+            zoomScaleRef.current = scale;
+          }}
+          scrollEventThrottle={16}
+          onScrollEndDrag={() => setTimeout(resetZoom, 120)}
+          onMomentumScrollEnd={() => setTimeout(resetZoom, 120)}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+        >
+          <Image source={{ uri: post.image_url }} style={{ width: imageWidth, height: imageHeight }} />
+        </ScrollView>
+      </View>
 
       <View className="mt-6 gap-2">
         <Text className="text-2xl font-semibold text-ink dark:text-white">{post.title}</Text>
