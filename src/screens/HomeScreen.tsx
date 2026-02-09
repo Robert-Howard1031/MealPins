@@ -5,7 +5,6 @@ import * as Location from 'expo-location';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 
-import { Pill } from '../components/ui/Pill';
 import { PostPreviewCard } from '../components/PostPreviewCard';
 import { fetchTodayPostsExplore, fetchTodayPostsFollowing, deletePost } from '../lib/api';
 import type { Post } from '../lib/types';
@@ -35,6 +34,12 @@ export default function HomeScreen({ navigation }: { navigation: any }) {
   const didPressMarker = useRef(false);
   const mapRef = useRef<MapView | null>(null);
   const [mapType, setMapType] = useState<'standard' | 'satellite'>('standard');
+  const [pillWidth, setPillWidth] = useState(0);
+  const sliderWidth = pillWidth ? (pillWidth - 8) / 2 : 0;
+  const sliderLeft = mode === 'explore' ? 4 : 4 + sliderWidth;
+  const sliderColor = '#FF6B35';
+  const activeTextColor = '#FFFFFF';
+  const inactiveTextColor = isDark ? '#F8FAFC' : '#0F172A';
 
   const loadLocation = useCallback(async () => {
     try {
@@ -161,19 +166,57 @@ export default function HomeScreen({ navigation }: { navigation: any }) {
           </IconButton>
 
           <View className="mx-4 flex-1 items-center">
-            <View className="flex-row gap-2 rounded-full bg-white/80 p-2 shadow-md dark:bg-surface-darkMuted/80">
-              <Pill
-                label="Explore"
-                active={mode === 'explore'}
+            <View
+              className="relative flex-row items-center rounded-full bg-white/80 p-1 shadow-md dark:bg-surface-darkMuted/80"
+              style={{ width: 240 }}
+              onLayout={(event) => setPillWidth(event.nativeEvent.layout.width)}
+            >
+              {pillWidth ? (
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: 4,
+                    bottom: 4,
+                    left: sliderLeft,
+                    width: sliderWidth,
+                    borderRadius: 999,
+                    backgroundColor: sliderColor,
+                    shadowColor: '#0F172A',
+                    shadowOpacity: 0.15,
+                    shadowRadius: 8,
+                    shadowOffset: { width: 0, height: 4 },
+                    elevation: 4,
+                  }}
+                />
+              ) : null}
+              <Pressable
                 onPress={() => setMode('explore')}
-                isDark={isDark}
-              />
-              <Pill
-                label="Following"
-                active={mode === 'following'}
+                style={{ flex: 1, height: 36, alignItems: 'center', justifyContent: 'center' }}
+              >
+                <Text
+                  style={{
+                    fontSize: 14,
+                    fontWeight: '600',
+                    color: mode === 'explore' ? activeTextColor : inactiveTextColor,
+                  }}
+                >
+                  Explore
+                </Text>
+              </Pressable>
+              <Pressable
                 onPress={() => setMode('following')}
-                isDark={isDark}
-              />
+                style={{ flex: 1, height: 36, alignItems: 'center', justifyContent: 'center' }}
+              >
+                <Text
+                  style={{
+                    fontSize: 14,
+                    fontWeight: '600',
+                    color: mode === 'following' ? activeTextColor : inactiveTextColor,
+                  }}
+                >
+                  Following
+                </Text>
+              </Pressable>
             </View>
           </View>
 
