@@ -114,57 +114,73 @@ export default function CreatePostScreen({ navigation }: any) {
 
   return (
     <ScrollView
-      className="flex-1 bg-surface px-6 pt-16 dark:bg-surface-dark"
+      className="flex-1 bg-surface px-6 dark:bg-surface-dark"
+      contentContainerStyle={{
+        flexGrow: 1,
+        paddingTop: 64,
+        paddingBottom: imageUri ? 32 : 64,
+      }}
       keyboardShouldPersistTaps="handled"
     >
       <Text className="text-2xl font-semibold text-ink dark:text-white">Create Post</Text>
-      {!imageUri ? (
-        <View className="mt-8 gap-4">
-          <Card className="items-center gap-4 py-10">
-            <View className="h-14 w-14 items-center justify-center rounded-full bg-brand/10">
-              <Ionicons name="camera" size={26} color="#FF6B35" />
-            </View>
-            <Text className="text-base font-semibold text-ink dark:text-slate-100">
-              Add a photo of your meal
-            </Text>
-            <Text className="text-sm text-ink-600 dark:text-slate-400">
-              Use the camera or pick from your library.
-            </Text>
-          </Card>
-          <Button label="Take Photo" onPress={() => pickImage(true)} />
-          <Button label="Choose from Library" variant="secondary" onPress={() => pickImage(false)} />
-          <Button label="Cancel" variant="ghost" onPress={() => navigation.navigate('Home')} />
-        </View>
-      ) : (
-        <View className="mt-6 gap-6">
-          <Image source={{ uri: imageUri }} className="h-56 w-full rounded-3xl" />
-          <Input label="Title" value={title} onChangeText={setTitle} />
-          <Input
-            label="Description"
-            value={description}
-            onChangeText={setDescription}
-            multiline
-            className="h-24 py-3"
-          />
-          <Input
-            label="Location"
-            value={locationName}
-            onChangeText={setLocationName}
-            placeholder="Address or place name"
-          />
-          <View className="flex-row gap-3">
-            <Button label="Use GPS" variant="secondary" onPress={useCurrentLocation} className="flex-1" />
-            <Button label="Geocode" variant="ghost" onPress={geocodeLocation} className="flex-1" />
+      <View style={{ flex: 1, justifyContent: imageUri ? 'flex-start' : 'center' }}>
+        {!imageUri ? (
+          <View className="mt-8 gap-4">
+            <Card className="items-center gap-4 py-10">
+              <View className="h-14 w-14 items-center justify-center rounded-full bg-brand/10">
+                <Ionicons name="camera" size={26} color="#FF6B35" />
+              </View>
+              <Text className="text-base font-semibold text-ink dark:text-slate-100">
+                Add a photo of your meal
+              </Text>
+              <Text className="text-sm text-ink-600 dark:text-slate-400">
+                Use the camera or pick from your library.
+              </Text>
+            </Card>
+            <Button label="Take Photo" onPress={() => pickImage(true)} />
+            <Button
+              label="Choose from Library"
+              variant="secondary"
+              onPress={() => pickImage(false)}
+            />
+            <Button label="Cancel" variant="ghost" onPress={() => navigation.navigate('Home')} />
           </View>
-          <Button label="Publish" onPress={handleSubmit} loading={loading} />
-          <Button
-            label="Change Photo"
-            variant="ghost"
-            onPress={() => setImageUri(null)}
-          />
-        </View>
-      )}
-      <View className="h-20" />
+        ) : (
+          <View className="mt-6 gap-6">
+            <Image source={{ uri: imageUri }} className="h-56 w-full rounded-3xl" />
+            <Input label="Title" value={title} onChangeText={setTitle} />
+            <Input
+              label="Description"
+              value={description}
+              onChangeText={setDescription}
+              multiline
+              className="h-24 py-3"
+            />
+            <Input
+              label="Location"
+              value={locationName}
+              onChangeText={setLocationName}
+              placeholder="Address or place name"
+            />
+            <View className="flex-row gap-3">
+              <Button
+                label="Use GPS"
+                variant="secondary"
+                onPress={useCurrentLocation}
+                className="flex-1"
+              />
+              <Button
+                label="Geocode"
+                variant="ghost"
+                onPress={geocodeLocation}
+                className="flex-1"
+              />
+            </View>
+            <Button label="Publish" onPress={handleSubmit} loading={loading} />
+            <Button label="Change Photo" variant="ghost" onPress={() => setImageUri(null)} />
+          </View>
+        )}
+      </View>
     </ScrollView>
   );
 }
