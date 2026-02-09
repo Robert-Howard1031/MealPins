@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Avatar } from '../components/ui/Avatar';
 import { PostGrid } from '../components/PostGrid';
 import { EmptyState } from '../components/EmptyState';
+import { Button } from '../components/ui/Button';
 import { fetchFollowCounts, fetchPostsByUser } from '../lib/api';
 import type { Post } from '../lib/types';
 import { useAuth } from '../providers/AuthProvider';
@@ -41,6 +42,7 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
     const unsubscribe = navigation.addListener('focus', loadProfile);
     return unsubscribe;
   }, [navigation, loadProfile]);
+
 
   return (
     <ScrollView className="flex-1 bg-surface px-6 pt-16 dark:bg-surface-dark">
@@ -88,6 +90,14 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
           </Text>
           <Text className="text-xs text-ink-600 dark:text-slate-400">Following</Text>
         </View>
+      </View>
+
+      <View className="mt-6">
+        <Button
+          label="Edit Profile"
+          variant="secondary"
+          onPress={() => navigation.navigate('EditProfile')}
+        />
       </View>
 
       <View className="mt-8">

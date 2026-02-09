@@ -42,11 +42,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               username?: string;
               display_name?: string;
             };
-            if (metadata?.username && metadata?.display_name) {
+            if (metadata?.username) {
               const created = await upsertProfile({
                 id: data.session.user.id,
                 username: metadata.username,
-                display_name: metadata.display_name,
+                display_name: metadata.display_name ?? metadata.username,
                 bio: '',
                 avatar_url: null,
               });
@@ -67,24 +67,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (newSession?.user?.id) {
         try {
           const fetched = await fetchProfile(newSession.user.id);
-          if (fetched) {
-            setProfile(fetched);
+        if (fetched) {
+          setProfile(fetched);
+        } else {
+          const metadata = newSession.user.user_metadata as {
+            username?: string;
+            display_name?: string;
+          };
+          if (metadata?.username) {
+            const created = await upsertProfile({
+              id: newSession.user.id,
+              username: metadata.username,
+              display_name: metadata.display_name ?? metadata.username,
+              bio: '',
+              avatar_url: null,
+            });
+            setProfile(created);
           } else {
-            const metadata = newSession.user.user_metadata as {
-              username?: string;
-              display_name?: string;
-            };
-            if (metadata?.username && metadata?.display_name) {
-              const created = await upsertProfile({
-                id: newSession.user.id,
-                username: metadata.username,
-                display_name: metadata.display_name,
-                bio: '',
-                avatar_url: null,
-              });
-              setProfile(created);
-            } else {
-              setProfile(null);
+            setProfile(null);
             }
           }
         } catch (error) {
@@ -118,7 +118,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       options: {
         data: {
           username: params.username,
-          display_name: params.displayName,
         },
       },
     });

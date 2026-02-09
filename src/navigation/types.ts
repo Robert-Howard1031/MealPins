@@ -17,5 +17,6 @@ export type RootStackParamList = {
   PostDetail: { post: Post };
   UserProfile: { userId: string };
   EditPost: { post: Post };
+  EditProfile: undefined;
   Settings: undefined;
 };

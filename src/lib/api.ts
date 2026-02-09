@@ -25,6 +25,34 @@ export async function upsertProfile(profile: Partial<Profile> & { id: string }) 
   return data as Profile;
 }
 
+export async function isUsernameAvailable(username: string, currentUserId?: string) {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('username', username)
+    .maybeSingle();
+
+  if (error) throw error;
+  if (!data) return true;
+  if (currentUserId && data.id === currentUserId) return true;
+  return false;
+}
+
+export async function updateProfile(
+  userId: string,
+  updates: { display_name?: string; username?: string; bio?: string | null; avatar_url?: string | null }
+) {
+  const { data, error } = await supabase
+    .from('profiles')
+    .update(updates)
+    .eq('id', userId)
+    .select('*')
+    .single();
+
+  if (error) throw error;
+  return data as Profile;
+}
+
 export async function searchProfiles(query: string) {
   if (!query) return [] as Profile[];
   const { data, error } = await supabase
