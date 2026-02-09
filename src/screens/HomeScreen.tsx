@@ -37,7 +37,7 @@ export default function HomeScreen({ navigation }: { navigation: any }) {
   const [pillWidth, setPillWidth] = useState(0);
   const sliderWidth = pillWidth ? (pillWidth - 8) / 2 : 0;
   const sliderLeft = mode === 'explore' ? 4 : 4 + sliderWidth;
-  const sliderColor = '#FF6B35';
+  const sliderColor = '#5E7D63';
   const activeTextColor = '#FFFFFF';
   const inactiveTextColor = isDark ? '#F8FAFC' : '#0F172A';
 
@@ -228,7 +228,7 @@ export default function HomeScreen({ navigation }: { navigation: any }) {
 
       {loading ? (
         <View className="absolute inset-0 items-center justify-center">
-          <ActivityIndicator size="large" color="#FF6B35" />
+          <ActivityIndicator size="large" color="#5E7D63" />
         </View>
       ) : null}
 

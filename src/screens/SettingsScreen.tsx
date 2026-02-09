@@ -45,7 +45,7 @@ export default function SettingsScreen({ navigation }: { navigation: any }) {
             <Text className="text-base text-ink dark:text-slate-100">
               {mode === 'system' ? 'System' : mode === 'light' ? 'Light' : 'Dark'}
             </Text>
-            {theme === mode ? <Ionicons name="checkmark" size={18} color="#FF6B35" /> : null}
+            {theme === mode ? <Ionicons name="checkmark" size={18} color="#5E7D63" /> : null}
           </Pressable>
         ))}
       </View>

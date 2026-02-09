@@ -80,7 +80,7 @@ export default function UserProfileScreen({ navigation, route }: { navigation: a
   if (loading) {
     return (
       <View className="flex-1 items-center justify-center bg-surface px-6 pt-16 dark:bg-surface-dark">
-        <ActivityIndicator size="large" color="#FF6B35" />
+        <ActivityIndicator size="large" color="#5E7D63" />
       </View>
     );
   }

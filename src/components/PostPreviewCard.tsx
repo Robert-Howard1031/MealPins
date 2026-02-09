@@ -51,7 +51,7 @@ export function PostPreviewCard({
           {description}
         </Text>
         <View className="flex-row items-center gap-2">
-          <Ionicons name="location" size={14} color="#FF6B35" />
+          <Ionicons name="location" size={14} color="#5E7D63" />
           <Text className="text-xs text-ink-500 dark:text-slate-400" numberOfLines={1}>
             {post.location_name}
           </Text>

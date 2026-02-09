@@ -50,7 +50,7 @@ export default function PostDetailScreen({ navigation, route }: { navigation: an
         <Text className="text-2xl font-semibold text-ink dark:text-white">{post.title}</Text>
         <Text className="text-sm text-ink-600 dark:text-slate-300">{post.description}</Text>
         <View className="flex-row items-center gap-2">
-          <Ionicons name="location" size={14} color="#FF6B35" />
+          <Ionicons name="location" size={14} color="#5E7D63" />
           <Text className="text-sm text-ink-600 dark:text-slate-400">{post.location_name}</Text>
         </View>
         <Text className="text-xs text-ink-500 dark:text-slate-400">

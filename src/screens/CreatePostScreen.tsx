@@ -128,7 +128,7 @@ export default function CreatePostScreen({ navigation }: any) {
           <View className="mt-8 gap-4">
             <Card className="items-center gap-4 py-10">
               <View className="h-14 w-14 items-center justify-center rounded-full bg-brand/10">
-                <Ionicons name="camera" size={26} color="#FF6B35" />
+                <Ionicons name="camera" size={26} color="#5E7D63" />
               </View>
               <Text className="text-base font-semibold text-ink dark:text-slate-100">
                 Add a photo of your meal

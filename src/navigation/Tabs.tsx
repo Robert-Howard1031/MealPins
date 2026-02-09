@@ -51,7 +51,7 @@ export default function MainTabs() {
         },
         tabBarIcon: ({ focused }) => {
           const iconSize = 24;
-          const iconColor = focused ? '#FF6B35' : isDark ? '#94A3B8' : '#64748B';
+          const iconColor = focused ? '#5E7D63' : isDark ? '#94A3B8' : '#64748B';
 
           const iconMap: Record<string, keyof typeof Ionicons.glyphMap> = {
             Home: focused ? 'home' : 'home-outline',

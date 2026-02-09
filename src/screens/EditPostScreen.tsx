@@ -85,7 +85,7 @@ export default function EditPostScreen({ navigation, route }: { navigation: any;
   return (
     <ScrollView className="flex-1 bg-surface px-6 pt-16 dark:bg-surface-dark">
       <View className="mb-6 flex-row items-center gap-3">
-        <Ionicons name="create-outline" size={20} color="#FF6B35" />
+        <Ionicons name="create-outline" size={20} color="#5E7D63" />
         <Text className="text-2xl font-semibold text-ink dark:text-white">Edit Post</Text>
       </View>
 

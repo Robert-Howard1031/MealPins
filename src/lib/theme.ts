@@ -6,14 +6,14 @@ export const appColors = {
     card: '#FFFFFF',
     text: '#0F172A',
     border: '#E2E8F0',
-    primary: '#FF6B35',
+    primary: '#5E7D63',
   },
   dark: {
     background: '#0B0F1A',
     card: '#141A2A',
     text: '#F8FAFC',
     border: '#1E293B',
-    primary: '#FF6B35',
+    primary: '#5E7D63',
   },
 };
 

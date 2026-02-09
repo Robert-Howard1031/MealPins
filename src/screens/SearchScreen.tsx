@@ -47,7 +47,7 @@ export default function SearchScreen({ navigation }: { navigation: any }) {
 
       {loading ? (
         <View className="mt-10 items-center">
-          <ActivityIndicator size="large" color="#FF6B35" />
+          <ActivityIndicator size="large" color="#5E7D63" />
         </View>
       ) : null}
 

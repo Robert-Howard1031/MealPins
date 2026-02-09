@@ -103,7 +103,7 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
 
       <View className="mt-8">
         {loading ? (
-          <ActivityIndicator size="large" color="#FF6B35" />
+          <ActivityIndicator size="large" color="#5E7D63" />
         ) : posts.length === 0 ? (
           <EmptyState title="No posts yet" subtitle="Share your first meal to fill this grid." />
         ) : (
