@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
 
+import { Avatar } from '../components/ui/Avatar';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { useAuth } from '../providers/AuthProvider';
 import { useThemePreference } from '../providers/ThemeProvider';
 import { isUsernameAvailable, updateProfile } from '../lib/api';
+import { uploadImageAsync } from '../lib/storage';
 
 export default function EditProfileScreen({ navigation }: { navigation: any }) {
   const { user, profile, refreshProfile } = useAuth();
@@ -17,12 +20,48 @@ export default function EditProfileScreen({ navigation }: { navigation: any }) {
   const [username, setUsername] = useState('');
   const [bio, setBio] = useState('');
   const [saving, setSaving] = useState(false);
+  const [avatarUri, setAvatarUri] = useState<string | null>(null);
+  const [avatarChanged, setAvatarChanged] = useState(false);
 
   useEffect(() => {
     setDisplayName(profile?.display_name || '');
     setUsername(profile?.username || '');
     setBio(profile?.bio || '');
+    setAvatarUri(profile?.avatar_url || null);
+    setAvatarChanged(false);
   }, [profile?.id, profile?.display_name, profile?.username, profile?.bio]);
+
+  const pickAvatar = async (fromCamera: boolean) => {
+    const permission = fromCamera
+      ? await ImagePicker.requestCameraPermissionsAsync()
+      : await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (!permission.granted) {
+      Alert.alert('Permission needed', 'Please allow access to your photos.');
+      return;
+    }
+
+    const result = fromCamera
+      ? await ImagePicker.launchCameraAsync({ quality: 0.8, allowsEditing: true, aspect: [1, 1] })
+      : await ImagePicker.launchImageLibraryAsync({
+          quality: 0.8,
+          allowsEditing: true,
+          aspect: [1, 1],
+        });
+
+    if (!result.canceled && result.assets?.[0]?.uri) {
+      setAvatarUri(result.assets[0].uri);
+      setAvatarChanged(true);
+    }
+  };
+
+  const showAvatarOptions = () => {
+    Alert.alert('Update profile photo', 'Choose a source', [
+      { text: 'Choose Photo', onPress: () => pickAvatar(false) },
+      { text: 'Take Photo', onPress: () => pickAvatar(true) },
+      { text: 'Cancel', style: 'cancel' },
+    ]);
+  };
 
   const handleSave = async () => {
     if (!user?.id) return;
@@ -56,10 +95,17 @@ export default function EditProfileScreen({ navigation }: { navigation: any }) {
         }
       }
 
+      let avatarUrl = profile?.avatar_url || null;
+      if (avatarChanged && avatarUri) {
+        const path = `${user.id}/${Date.now()}.jpg`;
+        avatarUrl = await uploadImageAsync(avatarUri, 'avatars', path);
+      }
+
       await updateProfile(user.id, {
         display_name: nextDisplay,
         username: nextUsername,
         bio: bio.trim(),
+        avatar_url: avatarUrl,
       });
       await refreshProfile();
       navigation.goBack();
@@ -80,6 +126,18 @@ export default function EditProfileScreen({ navigation }: { navigation: any }) {
       </Pressable>
 
       <Text className="text-2xl font-semibold text-ink dark:text-white">Edit Profile</Text>
+
+      <View className="mt-6 flex-row items-center gap-4">
+        <Pressable onPress={showAvatarOptions}>
+          <Avatar uri={avatarUri} name={displayName} size={96} />
+          <View className="absolute bottom-0 right-0 h-8 w-8 items-center justify-center rounded-full bg-white shadow-sm dark:bg-surface-darkMuted">
+            <Ionicons name="camera" size={16} color={iconColor} />
+          </View>
+        </Pressable>
+        <View className="flex-1">
+          <Button label="Change Photo" variant="secondary" onPress={showAvatarOptions} />
+        </View>
+      </View>
 
       <View className="mt-6 gap-4">
         <Input label="Display name" value={displayName} onChangeText={setDisplayName} />
