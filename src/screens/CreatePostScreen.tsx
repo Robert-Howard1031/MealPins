@@ -80,7 +80,9 @@ export default function CreatePostScreen({ navigation }: any) {
 
   const handleSubmit = async () => {
     if (!user?.id) return;
-    if (!imageUri || !description || !locationName || latitude == null || longitude == null) {
+    const trimmedDescription = description.trim();
+    const trimmedLocation = locationName.trim();
+    if (!imageUri || !trimmedDescription || !trimmedLocation || latitude == null || longitude == null) {
       Alert.alert('Missing info', 'Please complete all fields.');
       return;
     }
@@ -91,8 +93,8 @@ export default function CreatePostScreen({ navigation }: any) {
         userId: user.id,
         imageUri,
         title: '',
-        description,
-        locationName,
+        description: trimmedDescription,
+        locationName: trimmedLocation,
         latitude,
         longitude,
       });

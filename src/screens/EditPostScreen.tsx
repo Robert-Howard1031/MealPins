@@ -58,7 +58,9 @@ export default function EditPostScreen({ navigation, route }: { navigation: any;
   };
 
   const handleSave = async () => {
-    if (!description || !locationName) {
+    const trimmedDescription = description.trim();
+    const trimmedLocation = locationName.trim();
+    if (!trimmedDescription || !trimmedLocation) {
       Alert.alert('Missing info', 'Please complete all fields.');
       return;
     }
@@ -66,8 +68,8 @@ export default function EditPostScreen({ navigation, route }: { navigation: any;
     try {
       setLoading(true);
       await updatePost(post.id, {
-        description,
-        location_name: locationName,
+        description: trimmedDescription,
+        location_name: trimmedLocation,
         latitude,
         longitude,
       });
