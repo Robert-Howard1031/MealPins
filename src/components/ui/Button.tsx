@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, Pressable, PressableProps, Text } from 'react-native';
+import { ActivityIndicator, Pressable, PressableProps, Text, TextStyle } from 'react-native';
 
 import { cn } from '../../lib/cn';
 import { useThemePreference } from '../../providers/ThemeProvider';
@@ -10,6 +10,8 @@ type ButtonProps = PressableProps & {
   label: string;
   variant?: ButtonVariant;
   loading?: boolean;
+  textStyle?: TextStyle;
+  textClassName?: string;
 };
 
 export function Button({
@@ -17,6 +19,8 @@ export function Button({
   variant = 'primary',
   loading,
   className,
+  textStyle,
+  textClassName,
   disabled,
   ...props
 }: ButtonProps) {
@@ -51,7 +55,10 @@ export function Button({
       {loading ? (
         <ActivityIndicator color={indicatorColor} />
       ) : (
-        <Text className={cn('text-base font-semibold', textVariants[variant])}>
+        <Text
+          className={cn('text-base font-semibold', textVariants[variant], textClassName)}
+          style={textStyle}
+        >
           {label}
         </Text>
       )}

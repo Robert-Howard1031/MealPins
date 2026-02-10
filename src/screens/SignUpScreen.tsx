@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, Pressable, Text, View } from 'react-native';
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
@@ -13,6 +22,12 @@ export default function SignUpScreen({ navigation }: any) {
   const [username, setUsername] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [loading, setLoading] = useState(false);
+  const headingStyle = { fontFamily: 'Sora_700Bold' };
+  const titleStyle = { fontFamily: 'Sora_600SemiBold' };
+  const bodyStyle = { fontFamily: 'Sora_400Regular' };
+  const labelStyle = { fontFamily: 'Sora_500Medium' };
+  const inputStyle = { fontFamily: 'Sora_400Regular' };
+  const buttonTextStyle = { fontFamily: 'Sora_600SemiBold' };
 
   const handleSignUp = async () => {
     try {
@@ -54,33 +69,84 @@ export default function SignUpScreen({ navigation }: any) {
       style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <View className="flex-1 bg-surface px-6 pt-16 dark:bg-surface-dark">
-        <View className="gap-3">
-          <Text className="text-3xl font-bold text-ink dark:text-white">Join MealPins</Text>
-          <Text className="text-base text-ink-600 dark:text-slate-300">
-            Drop meals on the map and discover today’s bites.
-          </Text>
-        </View>
+      <View className="flex-1 bg-[#EEF3ED] dark:bg-[#0B1220]">
+        <View className="absolute -top-24 -right-16 h-56 w-56 rounded-full bg-brand/20" />
+        <View className="absolute -bottom-28 -left-20 h-72 w-72 rounded-full bg-brand/15" />
+        <View className="absolute top-16 left-12 h-3 w-3 rounded-full bg-brand/70" />
 
-        <View className="mt-10 gap-5">
-          <Input label="Display name" value={displayName} onChangeText={setDisplayName} />
-          <Input label="Username" autoCapitalize="none" value={username} onChangeText={setUsername} />
-          <Input
-            label="Email"
-            autoCapitalize="none"
-            keyboardType="email-address"
-            value={email}
-            onChangeText={setEmail}
-          />
-          <Input label="Password" secureTextEntry value={password} onChangeText={setPassword} />
-          <Button label="Create account" onPress={handleSignUp} loading={loading} />
-        </View>
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', paddingVertical: 32 }}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View className="px-6">
+            <View className="rounded-[32px] bg-white/90 p-6 shadow-xl dark:bg-surface-darkMuted/90">
+              <View className="items-center gap-3">
+                <View className="h-12 w-12 items-center justify-center rounded-2xl bg-brand/15">
+                  <Ionicons name="sparkles" size={22} color="#5E7D63" />
+                </View>
+                <Text className="text-xl text-ink dark:text-white" style={headingStyle}>
+                  Join MealPins
+                </Text>
+                <Text className="text-lg text-ink dark:text-white" style={titleStyle}>
+                  Start dropping meals
+                </Text>
+                <Text className="text-center text-sm text-ink-600 dark:text-slate-300" style={bodyStyle}>
+                  Create your profile and share today's bites with the map.
+                </Text>
+              </View>
 
-        <Pressable onPress={() => navigation.goBack()} className="mt-8">
-          <Text className="text-center text-sm text-ink-600 dark:text-slate-300">
-            Already have an account? <Text className="font-semibold text-brand">Sign in</Text>
-          </Text>
-        </Pressable>
+              <View className="mt-6 gap-4">
+                <Input
+                  label="Display name"
+                  value={displayName}
+                  onChangeText={setDisplayName}
+                  labelStyle={labelStyle}
+                  inputStyle={inputStyle}
+                />
+                <Input
+                  label="Username"
+                  autoCapitalize="none"
+                  value={username}
+                  onChangeText={setUsername}
+                  labelStyle={labelStyle}
+                  inputStyle={inputStyle}
+                />
+                <Input
+                  label="Email"
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                  value={email}
+                  onChangeText={setEmail}
+                  labelStyle={labelStyle}
+                  inputStyle={inputStyle}
+                />
+                <Input
+                  label="Password"
+                  secureTextEntry
+                  value={password}
+                  onChangeText={setPassword}
+                  labelStyle={labelStyle}
+                  inputStyle={inputStyle}
+                />
+                <Button
+                  label="Create account"
+                  onPress={handleSignUp}
+                  loading={loading}
+                  textStyle={buttonTextStyle}
+                />
+              </View>
+
+              <Pressable onPress={() => navigation.goBack()} className="mt-6">
+                <Text className="text-center text-sm text-ink-600 dark:text-slate-300" style={bodyStyle}>
+                  Already have an account?{' '}
+                  <Text className="text-brand" style={titleStyle}>
+                    Sign in
+                  </Text>
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+        </ScrollView>
       </View>
     </KeyboardAvoidingView>
   );
