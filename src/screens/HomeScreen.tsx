@@ -40,6 +40,10 @@ export default function HomeScreen({ navigation }: { navigation: any }) {
   const sliderColor = '#5E7D63';
   const activeTextColor = '#FFFFFF';
   const inactiveTextColor = isDark ? '#F8FAFC' : '#0F172A';
+  const clearSelection = () => {
+    didPressMarker.current = false;
+    setSelectedPost(null);
+  };
 
   const loadLocation = useCallback(async () => {
     try {
@@ -90,7 +94,7 @@ export default function HomeScreen({ navigation }: { navigation: any }) {
         onPress: async () => {
           try {
             await deletePost(post.id, post.image_url);
-            setSelectedPost(null);
+            clearSelection();
             loadPosts();
           } catch (error) {
             Alert.alert('Delete failed', 'Please try again.');
@@ -144,6 +148,11 @@ export default function HomeScreen({ navigation }: { navigation: any }) {
           }
           setSelectedPost(null);
         }}
+        moveOnMarkerPress={false}
+        scrollEnabled={!selectedPost}
+        zoomEnabled={!selectedPost}
+        rotateEnabled={!selectedPost}
+        pitchEnabled={!selectedPost}
         mapType={mapType}
         showsUserLocation
         showsMyLocationButton
@@ -234,7 +243,7 @@ export default function HomeScreen({ navigation }: { navigation: any }) {
 
       {selectedPost ? (
         <View className="absolute inset-0">
-          <Pressable className="absolute inset-0" onPress={() => setSelectedPost(null)} />
+          <Pressable className="absolute inset-0" onPress={clearSelection} />
           <View className="flex-1 items-center justify-center px-6" pointerEvents="box-none">
             <Pressable onPress={() => {}} className="w-full max-w-md">
               <PostPreviewCard
