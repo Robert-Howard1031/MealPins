@@ -97,33 +97,32 @@ export default function UserProfileScreen({ navigation, route }: { navigation: a
       {profile ? (
         <View>
           <View className="flex-row items-center gap-4">
-            <Avatar uri={profile.avatar_url} name={profile.display_name} size={64} />
+            <Avatar uri={profile.avatar_url} name={profile.display_name} size={96} />
             <View className="flex-1">
               <Text className="text-xl font-semibold text-ink dark:text-white">
                 {profile.display_name}
               </Text>
               <Text className="text-sm text-ink-600 dark:text-slate-400">@{profile.username}</Text>
-            </View>
-          </View>
-
-          <View className="mt-6 flex-row justify-around rounded-2xl bg-white/90 py-4 shadow-sm dark:bg-surface-darkMuted">
-            <View className="items-center">
-              <Text className="text-lg font-semibold text-ink dark:text-white">
-                {formatCount(stats.posts)}
-              </Text>
-              <Text className="text-xs text-ink-600 dark:text-slate-400">Posts</Text>
-            </View>
-            <View className="items-center">
-              <Text className="text-lg font-semibold text-ink dark:text-white">
-                {formatCount(stats.followers)}
-              </Text>
-              <Text className="text-xs text-ink-600 dark:text-slate-400">Followers</Text>
-            </View>
-            <View className="items-center">
-              <Text className="text-lg font-semibold text-ink dark:text-white">
-                {formatCount(stats.following)}
-              </Text>
-              <Text className="text-xs text-ink-600 dark:text-slate-400">Following</Text>
+              <View className="mt-3 flex-row gap-6">
+                <View className="items-center">
+                  <Text className="text-lg font-semibold text-ink dark:text-white">
+                    {formatCount(stats.posts)}
+                  </Text>
+                  <Text className="text-sm text-ink-600 dark:text-slate-400">Posts</Text>
+                </View>
+                <View className="items-center">
+                  <Text className="text-lg font-semibold text-ink dark:text-white">
+                    {formatCount(stats.followers)}
+                  </Text>
+                  <Text className="text-sm text-ink-600 dark:text-slate-400">Followers</Text>
+                </View>
+                <View className="items-center">
+                  <Text className="text-lg font-semibold text-ink dark:text-white">
+                    {formatCount(stats.following)}
+                  </Text>
+                  <Text className="text-sm text-ink-600 dark:text-slate-400">Following</Text>
+                </View>
+              </View>
             </View>
           </View>
 

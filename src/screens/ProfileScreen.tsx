@@ -52,15 +52,35 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
     <ScrollView className="flex-1 bg-surface px-6 pt-16 dark:bg-surface-dark">
       <View onLayout={(event) => setHeaderHeight(event.nativeEvent.layout.height)}>
         <View className="flex-row items-start justify-between">
-          <View className="flex-row items-center gap-4">
-            <Avatar uri={profile?.avatar_url} name={profile?.display_name} size={64} />
-            <View>
+          <View className="flex-1 flex-row items-center gap-4">
+            <Avatar uri={profile?.avatar_url} name={profile?.display_name} size={96} />
+            <View className="flex-1">
               <Text className="text-xl font-semibold text-ink dark:text-white">
                 {profile?.display_name || 'Your name'}
               </Text>
               <Text className="text-sm text-ink-600 dark:text-slate-400">
                 @{profile?.username || 'username'}
               </Text>
+              <View className="mt-3 flex-row gap-6">
+                <View className="items-center">
+                  <Text className="text-lg font-semibold text-ink dark:text-white">
+                    {formatCount(stats.posts)}
+                  </Text>
+                  <Text className="text-sm text-ink-600 dark:text-slate-400">Posts</Text>
+                </View>
+                <View className="items-center">
+                  <Text className="text-lg font-semibold text-ink dark:text-white">
+                    {formatCount(stats.followers)}
+                  </Text>
+                  <Text className="text-sm text-ink-600 dark:text-slate-400">Followers</Text>
+                </View>
+                <View className="items-center">
+                  <Text className="text-lg font-semibold text-ink dark:text-white">
+                    {formatCount(stats.following)}
+                  </Text>
+                  <Text className="text-sm text-ink-600 dark:text-slate-400">Following</Text>
+                </View>
+              </View>
             </View>
           </View>
           <Pressable
@@ -69,27 +89,6 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
           >
             <Ionicons name="settings-outline" size={20} color={iconColor} />
           </Pressable>
-        </View>
-
-        <View className="mt-8 flex-row justify-around rounded-2xl bg-white/90 py-4 shadow-sm dark:bg-surface-darkMuted">
-          <View className="items-center">
-            <Text className="text-lg font-semibold text-ink dark:text-white">
-              {formatCount(stats.posts)}
-            </Text>
-            <Text className="text-xs text-ink-600 dark:text-slate-400">Posts</Text>
-          </View>
-          <View className="items-center">
-            <Text className="text-lg font-semibold text-ink dark:text-white">
-              {formatCount(stats.followers)}
-            </Text>
-            <Text className="text-xs text-ink-600 dark:text-slate-400">Followers</Text>
-          </View>
-          <View className="items-center">
-            <Text className="text-lg font-semibold text-ink dark:text-white">
-              {formatCount(stats.following)}
-            </Text>
-            <Text className="text-xs text-ink-600 dark:text-slate-400">Following</Text>
-          </View>
         </View>
 
         {profile?.bio ? (
