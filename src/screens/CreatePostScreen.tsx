@@ -13,7 +13,6 @@ import { useAuth } from '../providers/AuthProvider';
 export default function CreatePostScreen({ navigation }: any) {
   const { user } = useAuth();
   const [imageUri, setImageUri] = useState<string | null>(null);
-  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [locationName, setLocationName] = useState('');
   const [latitude, setLatitude] = useState<number | null>(null);
@@ -81,7 +80,7 @@ export default function CreatePostScreen({ navigation }: any) {
 
   const handleSubmit = async () => {
     if (!user?.id) return;
-    if (!imageUri || !title || !description || !locationName || latitude == null || longitude == null) {
+    if (!imageUri || !description || !locationName || latitude == null || longitude == null) {
       Alert.alert('Missing info', 'Please complete all fields.');
       return;
     }
@@ -91,7 +90,7 @@ export default function CreatePostScreen({ navigation }: any) {
       await createPost({
         userId: user.id,
         imageUri,
-        title,
+        title: '',
         description,
         locationName,
         latitude,
@@ -99,7 +98,6 @@ export default function CreatePostScreen({ navigation }: any) {
       });
       Alert.alert('Posted!', 'Your meal is live on today’s map.');
       setImageUri(null);
-      setTitle('');
       setDescription('');
       setLocationName('');
       setLatitude(null);
@@ -148,7 +146,6 @@ export default function CreatePostScreen({ navigation }: any) {
         ) : (
           <View className="mt-6 gap-6">
             <Image source={{ uri: imageUri }} className="h-56 w-full rounded-3xl" />
-            <Input label="Title" value={title} onChangeText={setTitle} />
             <Input
               label="Description"
               value={description}

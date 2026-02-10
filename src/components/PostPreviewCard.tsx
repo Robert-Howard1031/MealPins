@@ -69,9 +69,6 @@ export function PostPreviewCard({
       </Pressable>
 
       <View className="gap-2">
-        <Text className="text-lg font-semibold text-ink dark:text-slate-100" numberOfLines={1}>
-          {post.title}
-        </Text>
         <Text className="text-sm text-ink-600 dark:text-slate-300" numberOfLines={3}>
           {description}
         </Text>

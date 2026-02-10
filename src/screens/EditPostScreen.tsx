@@ -11,7 +11,6 @@ import type { Post } from '../lib/types';
 export default function EditPostScreen({ navigation, route }: { navigation: any; route: any }) {
   const { post } = route.params as { post: Post };
 
-  const [title, setTitle] = useState(post.title);
   const [description, setDescription] = useState(post.description);
   const [locationName, setLocationName] = useState(post.location_name);
   const [latitude, setLatitude] = useState(post.latitude);
@@ -59,7 +58,7 @@ export default function EditPostScreen({ navigation, route }: { navigation: any;
   };
 
   const handleSave = async () => {
-    if (!title || !description || !locationName) {
+    if (!description || !locationName) {
       Alert.alert('Missing info', 'Please complete all fields.');
       return;
     }
@@ -67,7 +66,6 @@ export default function EditPostScreen({ navigation, route }: { navigation: any;
     try {
       setLoading(true);
       await updatePost(post.id, {
-        title,
         description,
         location_name: locationName,
         latitude,
@@ -91,7 +89,6 @@ export default function EditPostScreen({ navigation, route }: { navigation: any;
 
       <Image source={{ uri: post.image_url }} className="h-60 w-full rounded-3xl" />
       <View className="mt-6 gap-5">
-        <Input label="Title" value={title} onChangeText={setTitle} />
         <Input
           label="Description"
           value={description}

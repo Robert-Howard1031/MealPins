@@ -112,7 +112,6 @@ export default function PostDetailScreen({ navigation, route }: { navigation: an
       </View>
 
       <View className="mt-6 gap-2">
-        <Text className="text-2xl font-semibold text-ink dark:text-white">{post.title}</Text>
         <Text className="text-sm text-ink-600 dark:text-slate-300">{post.description}</Text>
         <View className="flex-row items-center gap-2">
           <Ionicons name="location" size={14} color="#5E7D63" />

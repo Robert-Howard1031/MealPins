@@ -115,7 +115,7 @@ export async function fetchPostsByUser(userId: string) {
 export async function createPost(params: {
   userId: string;
   imageUri: string;
-  title: string;
+  title?: string;
   description: string;
   locationName: string;
   latitude: number;
@@ -129,7 +129,7 @@ export async function createPost(params: {
     .insert({
       user_id: params.userId,
       image_url: imageUrl,
-      title: params.title,
+      title: params.title ?? '',
       description: params.description,
       location_name: params.locationName,
       latitude: params.latitude,
@@ -143,15 +143,16 @@ export async function createPost(params: {
 }
 
 export async function updatePost(postId: string, payload: Partial<Post>) {
+  const updates: Partial<Post> = {};
+  if (payload.title !== undefined) updates.title = payload.title;
+  if (payload.description !== undefined) updates.description = payload.description;
+  if (payload.location_name !== undefined) updates.location_name = payload.location_name;
+  if (payload.latitude !== undefined) updates.latitude = payload.latitude;
+  if (payload.longitude !== undefined) updates.longitude = payload.longitude;
+
   const { data, error } = await supabase
     .from('posts')
-    .update({
-      title: payload.title,
-      description: payload.description,
-      location_name: payload.location_name,
-      latitude: payload.latitude,
-      longitude: payload.longitude,
-    })
+    .update(updates)
     .eq('id', postId)
     .select('*, profile:profiles(*)')
     .single();
