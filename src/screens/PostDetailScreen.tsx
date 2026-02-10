@@ -9,6 +9,7 @@ import { deletePost } from '../lib/api';
 import type { Post } from '../lib/types';
 import { useAuth } from '../providers/AuthProvider';
 import { useThemePreference } from '../providers/ThemeProvider';
+import { font } from '../lib/typography';
 
 export default function PostDetailScreen({ navigation, route }: { navigation: any; route: any }) {
   const { user } = useAuth();
@@ -67,10 +68,10 @@ export default function PostDetailScreen({ navigation, route }: { navigation: an
         >
           <Avatar uri={post.profile?.avatar_url} name={post.profile?.display_name} size={44} />
           <View>
-            <Text className="text-base font-semibold text-ink dark:text-white">
+            <Text className="text-base font-semibold text-ink dark:text-white" style={font.semibold}>
               {post.profile?.display_name || 'User'}
             </Text>
-            <Text className="text-sm text-ink-600 dark:text-slate-400">
+            <Text className="text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
               @{post.profile?.username || 'username'}
             </Text>
           </View>
@@ -112,12 +113,16 @@ export default function PostDetailScreen({ navigation, route }: { navigation: an
       </View>
 
       <View className="mt-6 gap-2">
-        <Text className="text-sm text-ink-600 dark:text-slate-300">{post.description}</Text>
+        <Text className="text-sm text-ink-600 dark:text-slate-300" style={font.regular}>
+          {post.description}
+        </Text>
         <View className="flex-row items-center gap-2">
           <Ionicons name="location" size={14} color="#5E7D63" />
-          <Text className="text-sm text-ink-600 dark:text-slate-400">{post.location_name}</Text>
+          <Text className="text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
+            {post.location_name}
+          </Text>
         </View>
-        <Text className="text-xs text-ink-500 dark:text-slate-400">
+        <Text className="text-xs text-ink-500 dark:text-slate-400" style={font.regular}>
           {formatTimestamp(post.created_at)}
         </Text>
       </View>

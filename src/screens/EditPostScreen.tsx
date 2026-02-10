@@ -7,6 +7,7 @@ import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { updatePost } from '../lib/api';
 import type { Post } from '../lib/types';
+import { font } from '../lib/typography';
 
 export default function EditPostScreen({ navigation, route }: { navigation: any; route: any }) {
   const { post } = route.params as { post: Post };
@@ -86,7 +87,9 @@ export default function EditPostScreen({ navigation, route }: { navigation: any;
     <ScrollView className="flex-1 bg-surface px-6 pt-16 dark:bg-surface-dark">
       <View className="mb-6 flex-row items-center gap-3">
         <Ionicons name="create-outline" size={20} color="#5E7D63" />
-        <Text className="text-2xl font-semibold text-ink dark:text-white">Edit Post</Text>
+        <Text className="text-2xl font-semibold text-ink dark:text-white" style={font.semibold}>
+          Edit Post
+        </Text>
       </View>
 
       <Image source={{ uri: post.image_url }} className="h-60 w-full rounded-3xl" />

@@ -9,6 +9,7 @@ import { Input } from '../components/ui/Input';
 import { Card } from '../components/ui/Card';
 import { createPost } from '../lib/api';
 import { useAuth } from '../providers/AuthProvider';
+import { font } from '../lib/typography';
 
 export default function CreatePostScreen({ navigation }: any) {
   const { user } = useAuth();
@@ -122,7 +123,9 @@ export default function CreatePostScreen({ navigation }: any) {
       }}
       keyboardShouldPersistTaps="handled"
     >
-      <Text className="text-2xl font-semibold text-ink dark:text-white">Create Post</Text>
+      <Text className="text-2xl font-semibold text-ink dark:text-white" style={font.semibold}>
+        Create Post
+      </Text>
       <View style={{ flex: 1, justifyContent: imageUri ? 'flex-start' : 'center' }}>
         {!imageUri ? (
           <View className="mt-8 gap-4">
@@ -130,10 +133,10 @@ export default function CreatePostScreen({ navigation }: any) {
               <View className="h-14 w-14 items-center justify-center rounded-full bg-brand/10">
                 <Ionicons name="camera" size={26} color="#5E7D63" />
               </View>
-              <Text className="text-base font-semibold text-ink dark:text-slate-100">
+              <Text className="text-base font-semibold text-ink dark:text-slate-100" style={font.semibold}>
                 Add a photo of your meal
               </Text>
-              <Text className="text-sm text-ink-600 dark:text-slate-400">
+              <Text className="text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
                 Use the camera or pick from your library.
               </Text>
             </Card>

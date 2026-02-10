@@ -11,6 +11,7 @@ import type { Post } from '../lib/types';
 import { useAuth } from '../providers/AuthProvider';
 import { useThemePreference } from '../providers/ThemeProvider';
 import { formatCount } from '../lib/format';
+import { font } from '../lib/typography';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function ProfileScreen({ navigation }: { navigation: any }) {
@@ -55,30 +56,36 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
           <View className="flex-1 flex-row items-center gap-4">
             <Avatar uri={profile?.avatar_url} name={profile?.display_name} size={96} />
             <View className="flex-1">
-              <Text className="text-xl font-semibold text-ink dark:text-white">
+              <Text className="text-xl font-semibold text-ink dark:text-white" style={font.semibold}>
                 {profile?.display_name || 'Your name'}
               </Text>
-              <Text className="text-sm text-ink-600 dark:text-slate-400">
+              <Text className="text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
                 @{profile?.username || 'username'}
               </Text>
               <View className="mt-3 flex-row gap-6">
                 <View className="items-center">
-                  <Text className="text-lg font-semibold text-ink dark:text-white">
+                  <Text className="text-lg font-semibold text-ink dark:text-white" style={font.semibold}>
                     {formatCount(stats.posts)}
                   </Text>
-                  <Text className="text-sm text-ink-600 dark:text-slate-400">Posts</Text>
+                  <Text className="text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
+                    Posts
+                  </Text>
                 </View>
                 <View className="items-center">
-                  <Text className="text-lg font-semibold text-ink dark:text-white">
+                  <Text className="text-lg font-semibold text-ink dark:text-white" style={font.semibold}>
                     {formatCount(stats.followers)}
                   </Text>
-                  <Text className="text-sm text-ink-600 dark:text-slate-400">Followers</Text>
+                  <Text className="text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
+                    Followers
+                  </Text>
                 </View>
                 <View className="items-center">
-                  <Text className="text-lg font-semibold text-ink dark:text-white">
+                  <Text className="text-lg font-semibold text-ink dark:text-white" style={font.semibold}>
                     {formatCount(stats.following)}
                   </Text>
-                  <Text className="text-sm text-ink-600 dark:text-slate-400">Following</Text>
+                  <Text className="text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
+                    Following
+                  </Text>
                 </View>
               </View>
             </View>
@@ -92,7 +99,7 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
         </View>
 
         {profile?.bio ? (
-          <Text className="mt-4 text-sm text-ink-600 dark:text-slate-400">
+          <Text className="mt-4 text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
             {profile.bio}
           </Text>
         ) : null}

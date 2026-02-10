@@ -8,6 +8,7 @@ import { IconButton } from './ui/IconButton';
 import { formatTimestamp } from '../lib/format';
 import type { Post } from '../lib/types';
 import { useThemePreference } from '../providers/ThemeProvider';
+import { font } from '../lib/typography';
 
 const DESCRIPTION_LIMIT = 120;
 
@@ -39,10 +40,10 @@ export function PostPreviewCard({
         <Pressable onPress={onPressUser} className="flex-row items-center gap-2">
           <Avatar uri={post.profile?.avatar_url} name={post.profile?.display_name} size={28} />
           <View>
-            <Text className="text-sm font-semibold text-ink dark:text-slate-100">
+            <Text className="text-sm font-semibold text-ink dark:text-slate-100" style={font.semibold}>
               {post.profile?.display_name || 'User'}
             </Text>
-            <Text className="text-xs text-ink-500 dark:text-slate-400">
+            <Text className="text-xs text-ink-500 dark:text-slate-400" style={font.regular}>
               @{post.profile?.username || 'user'}
             </Text>
           </View>
@@ -69,16 +70,16 @@ export function PostPreviewCard({
       </Pressable>
 
       <View className="gap-2">
-        <Text className="text-sm text-ink-600 dark:text-slate-300" numberOfLines={3}>
+        <Text className="text-sm text-ink-600 dark:text-slate-300" numberOfLines={3} style={font.regular}>
           {description}
         </Text>
         <View className="flex-row items-center gap-2">
           <Ionicons name="location" size={14} color="#5E7D63" />
-          <Text className="text-xs text-ink-500 dark:text-slate-400" numberOfLines={1}>
+          <Text className="text-xs text-ink-500 dark:text-slate-400" numberOfLines={1} style={font.regular}>
             {post.location_name}
           </Text>
         </View>
-        <Text className="text-xs text-ink-500 dark:text-slate-400">
+        <Text className="text-xs text-ink-500 dark:text-slate-400" style={font.regular}>
           {formatTimestamp(post.created_at)}
         </Text>
       </View>

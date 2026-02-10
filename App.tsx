@@ -2,7 +2,7 @@ import './global.css';
 import 'react-native-url-polyfill/auto';
 
 import { StatusBar } from 'expo-status-bar';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,6 +12,14 @@ import RootNavigator from './src/navigation/RootNavigator';
 import { AuthProvider } from './src/providers/AuthProvider';
 import { ThemeProvider, useThemePreference } from './src/providers/ThemeProvider';
 import { getNavigationTheme } from './src/lib/theme';
+
+if (!Text.defaultProps) {
+  Text.defaultProps = {};
+}
+Text.defaultProps.style = [
+  { fontFamily: 'Sora_400Regular' },
+  Text.defaultProps.style,
+];
 
 function AppShell() {
   const { resolvedScheme } = useThemePreference();

@@ -7,6 +7,7 @@ import { Avatar } from '../components/ui/Avatar';
 import { searchProfiles } from '../lib/api';
 import type { Profile } from '../lib/types';
 import { useAuth } from '../providers/AuthProvider';
+import { font } from '../lib/typography';
 
 export default function SearchScreen({ navigation }: { navigation: any }) {
   const { user } = useAuth();
@@ -36,7 +37,9 @@ export default function SearchScreen({ navigation }: { navigation: any }) {
 
   return (
     <View className="flex-1 bg-surface px-6 pt-16 dark:bg-surface-dark">
-      <Text className="text-2xl font-semibold text-ink dark:text-white">Search</Text>
+      <Text className="text-2xl font-semibold text-ink dark:text-white" style={font.semibold}>
+        Search
+      </Text>
       <View className="mt-6">
         <Input
           value={query}
@@ -62,10 +65,12 @@ export default function SearchScreen({ navigation }: { navigation: any }) {
           >
             <Avatar uri={item.avatar_url} name={item.display_name} />
             <View className="flex-1">
-              <Text className="text-base font-semibold text-ink dark:text-slate-100">
+              <Text className="text-base font-semibold text-ink dark:text-slate-100" style={font.semibold}>
                 {item.display_name}
               </Text>
-              <Text className="text-sm text-ink-600 dark:text-slate-400">@{item.username}</Text>
+              <Text className="text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
+                @{item.username}
+              </Text>
             </View>
             <Ionicons name="chevron-forward" size={18} color="#94A3B8" />
           </Pressable>
@@ -73,7 +78,9 @@ export default function SearchScreen({ navigation }: { navigation: any }) {
         ListEmptyComponent={
           query ? (
             <View className="items-center py-10">
-              <Text className="text-sm text-ink-600 dark:text-slate-400">No users found.</Text>
+              <Text className="text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
+                No users found.
+              </Text>
             </View>
           ) : null
         }

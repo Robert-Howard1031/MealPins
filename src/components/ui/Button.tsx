@@ -2,6 +2,7 @@ import React from 'react';
 import { ActivityIndicator, Pressable, PressableProps, Text, TextStyle } from 'react-native';
 
 import { cn } from '../../lib/cn';
+import { font } from '../../lib/typography';
 import { useThemePreference } from '../../providers/ThemeProvider';
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
@@ -46,6 +47,8 @@ export function Button({
         : '#0F172A'
       : '#FFFFFF';
 
+  const resolvedTextStyle = textStyle ? [font.semibold, textStyle] : font.semibold;
+
   return (
     <Pressable
       className={cn(base, variants[variant], disabled && 'opacity-50', className)}
@@ -57,7 +60,7 @@ export function Button({
       ) : (
         <Text
           className={cn('text-base font-semibold', textVariants[variant], textClassName)}
-          style={textStyle}
+          style={resolvedTextStyle}
         >
           {label}
         </Text>

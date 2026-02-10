@@ -11,6 +11,7 @@ import type { Post } from '../lib/types';
 import { useAuth } from '../providers/AuthProvider';
 import { useThemePreference } from '../providers/ThemeProvider';
 import { IconButton } from '../components/ui/IconButton';
+import { font } from '../lib/typography';
 
 const DEFAULT_REGION: Region = {
   latitude: 40.7128,
@@ -206,6 +207,7 @@ export default function HomeScreen({ navigation }: { navigation: any }) {
                   style={{
                     fontSize: 14,
                     fontWeight: '600',
+                    fontFamily: 'Sora_600SemiBold',
                     color: mode === 'explore' ? activeTextColor : inactiveTextColor,
                   }}
                 >
@@ -220,6 +222,7 @@ export default function HomeScreen({ navigation }: { navigation: any }) {
                   style={{
                     fontSize: 14,
                     fontWeight: '600',
+                    fontFamily: 'Sora_600SemiBold',
                     color: mode === 'following' ? activeTextColor : inactiveTextColor,
                   }}
                 >
@@ -268,11 +271,11 @@ export default function HomeScreen({ navigation }: { navigation: any }) {
             style={{ width: 280, height: 280 }}
           >
             <View className="flex-1 items-center justify-center">
-              <Text className="text-lg font-semibold text-ink dark:text-slate-100">
+              <Text className="text-lg font-semibold text-ink dark:text-slate-100" style={font.semibold}>
                 No meals posted yet
               </Text>
-              <Text className="mt-3 text-center text-sm text-ink-600 dark:text-slate-400">
-                Be the first to drop a meal on today’s map.
+              <Text className="mt-3 text-center text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
+                Be the first to drop a meal on today&apos;s map.
               </Text>
             </View>
           </View>

@@ -10,6 +10,7 @@ import { useAuth } from '../providers/AuthProvider';
 import { useThemePreference } from '../providers/ThemeProvider';
 import { isUsernameAvailable, updateProfile } from '../lib/api';
 import { uploadImageAsync } from '../lib/storage';
+import { font } from '../lib/typography';
 
 export default function EditProfileScreen({ navigation }: { navigation: any }) {
   const { user, profile, refreshProfile } = useAuth();
@@ -125,7 +126,9 @@ export default function EditProfileScreen({ navigation }: { navigation: any }) {
         <Ionicons name="chevron-back" size={20} color={iconColor} />
       </Pressable>
 
-      <Text className="text-2xl font-semibold text-ink dark:text-white">Edit Profile</Text>
+      <Text className="text-2xl font-semibold text-ink dark:text-white" style={font.semibold}>
+        Edit Profile
+      </Text>
 
       <View className="mt-6 flex-row items-center gap-4">
         <Pressable onPress={showAvatarOptions}>
