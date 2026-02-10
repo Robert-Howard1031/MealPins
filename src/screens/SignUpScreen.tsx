@@ -81,19 +81,18 @@ export default function SignUpScreen({ navigation }: any) {
           <View className="px-6">
             <View className="rounded-[32px] bg-white/90 p-6 shadow-xl dark:bg-surface-darkMuted/90">
               <View className="items-center gap-3">
-                <View className="h-12 w-12 items-center justify-center rounded-2xl bg-brand/15">
-                  <Ionicons name="sparkles" size={22} color="#5E7D63" />
-                </View>
-                <Text className="text-xl text-ink dark:text-white" style={headingStyle}>
-                  Join MealPins
+                <Text
+                  className="text-xs uppercase tracking-[2px] text-ink-500 dark:text-slate-400"
+                  style={headingStyle}
+                >
+                  MealPins
                 </Text>
-                <Text className="text-lg text-ink dark:text-white" style={titleStyle}>
-                  Start dropping meals
-                </Text>
-                <Text className="text-center text-sm text-ink-600 dark:text-slate-300" style={bodyStyle}>
-                  Create your profile and share today's bites with the map.
+                <Text className="text-2xl text-ink dark:text-white" style={titleStyle}>
+                  Join Today
                 </Text>
               </View>
+
+              <View className="mt-5 h-px bg-ink-300/50 dark:bg-slate-700/60" />
 
               <View className="mt-6 gap-4">
                 <Input
