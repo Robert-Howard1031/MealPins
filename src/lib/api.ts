@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import { getTodayUtcRange } from './date';
+import { getLast24HoursRange } from './date';
 import { deleteImageByUrl, uploadImageAsync } from './storage';
 import type { Post, Profile } from './types';
 
@@ -66,7 +66,7 @@ export async function searchProfiles(query: string) {
 }
 
 export async function fetchTodayPostsExplore() {
-  const { start, end } = getTodayUtcRange();
+  const { start, end } = getLast24HoursRange();
   const { data, error } = await supabase
     .from('posts')
     .select('*, profile:profiles(*)')
@@ -88,7 +88,7 @@ export async function fetchTodayPostsFollowing(userId: string) {
   const ids = new Set<string>([userId]);
   follows?.forEach((row) => ids.add(row.following_id));
 
-  const { start, end } = getTodayUtcRange();
+  const { start, end } = getLast24HoursRange();
   const { data, error } = await supabase
     .from('posts')
     .select('*, profile:profiles(*)')
