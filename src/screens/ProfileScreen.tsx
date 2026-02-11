@@ -1,5 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, Pressable, ScrollView, Text, View, useWindowDimensions } from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  Modal,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+  useWindowDimensions,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { Avatar } from '../components/ui/Avatar';
@@ -24,6 +33,7 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({ posts: 0, followers: 0, following: 0 });
   const [headerHeight, setHeaderHeight] = useState(0);
+  const [avatarOpen, setAvatarOpen] = useState(false);
 
   const loadProfile = useCallback(async () => {
     if (!user?.id) return;
@@ -50,11 +60,18 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
 
 
   return (
-    <ScrollView className="flex-1 bg-surface px-6 pt-16 dark:bg-surface-dark">
+    <View className="flex-1">
+      <ScrollView className="flex-1 bg-surface px-6 pt-16 dark:bg-surface-dark">
       <View onLayout={(event) => setHeaderHeight(event.nativeEvent.layout.height)}>
         <View className="flex-row items-start justify-between">
           <View className="flex-1 flex-row items-center gap-4">
-            <Avatar uri={profile?.avatar_url} name={profile?.display_name} size={96} />
+            <Pressable
+              onPress={() => {
+                if (profile?.avatar_url) setAvatarOpen(true);
+              }}
+            >
+              <Avatar uri={profile?.avatar_url} name={profile?.display_name} size={96} />
+            </Pressable>
             <View className="flex-1">
               <Text className="text-xl font-semibold text-ink dark:text-white" style={font.semibold}>
                 {profile?.display_name || 'Your name'}
@@ -138,7 +155,19 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
           />
         </View>
       )}
-      <View className="h-24" />
-    </ScrollView>
+        <View className="h-24" />
+      </ScrollView>
+      <Modal visible={avatarOpen} transparent animationType="fade" onRequestClose={() => setAvatarOpen(false)}>
+        <Pressable className="flex-1 items-center justify-center bg-black/80 px-6" onPress={() => setAvatarOpen(false)}>
+          {profile?.avatar_url ? (
+            <Image
+              source={{ uri: profile.avatar_url }}
+              style={{ width: 260, height: 260, borderRadius: 130 }}
+              resizeMode="cover"
+            />
+          ) : null}
+        </Pressable>
+      </Modal>
+    </View>
   );
 }

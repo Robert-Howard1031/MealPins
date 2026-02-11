@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, Pressable, ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, Image, Modal, Pressable, ScrollView, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { Avatar } from '../components/ui/Avatar';
@@ -31,6 +31,7 @@ export default function UserProfileScreen({ navigation, route }: { navigation: a
   const [stats, setStats] = useState({ posts: 0, followers: 0, following: 0 });
   const [loading, setLoading] = useState(true);
   const [following, setFollowing] = useState(false);
+  const [avatarOpen, setAvatarOpen] = useState(false);
   const isSelf = user?.id === userId;
 
   const loadData = useCallback(async () => {
@@ -87,89 +88,109 @@ export default function UserProfileScreen({ navigation, route }: { navigation: a
   }
 
   return (
-    <ScrollView className="flex-1 bg-surface px-6 pt-16 dark:bg-surface-dark">
-      <Pressable
-        onPress={() => navigation.goBack()}
-        className="mb-6 h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm dark:bg-surface-darkMuted"
-      >
-        <Ionicons name="chevron-back" size={20} color={iconColor} />
-      </Pressable>
+    <View className="flex-1">
+      <ScrollView className="flex-1 bg-surface px-6 pt-16 dark:bg-surface-dark">
+        <Pressable
+          onPress={() => navigation.goBack()}
+          className="mb-6 h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm dark:bg-surface-darkMuted"
+        >
+          <Ionicons name="chevron-back" size={20} color={iconColor} />
+        </Pressable>
 
-      {profile ? (
-        <View>
-          <View className="flex-row items-center gap-4">
-            <Avatar uri={profile.avatar_url} name={profile.display_name} size={96} />
-            <View className="flex-1">
-              <Text className="text-xl font-semibold text-ink dark:text-white" style={font.semibold}>
-                {profile.display_name}
-              </Text>
-              <Text className="text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
-                @{profile.username}
-              </Text>
-              <View className="mt-3 flex-row gap-6">
-                <View className="items-center">
-                  <Text className="text-lg font-semibold text-ink dark:text-white" style={font.semibold}>
-                    {formatCount(stats.posts)}
-                  </Text>
-                  <Text className="text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
-                    Posts
-                  </Text>
-                </View>
-                <View className="items-center">
-                  <Text className="text-lg font-semibold text-ink dark:text-white" style={font.semibold}>
-                    {formatCount(stats.followers)}
-                  </Text>
-                  <Text className="text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
-                    Followers
-                  </Text>
-                </View>
-                <View className="items-center">
-                  <Text className="text-lg font-semibold text-ink dark:text-white" style={font.semibold}>
-                    {formatCount(stats.following)}
-                  </Text>
-                  <Text className="text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
-                    Following
-                  </Text>
+        {profile ? (
+          <View>
+            <View className="flex-row items-center gap-4">
+              <Pressable
+                onPress={() => {
+                  if (profile.avatar_url) setAvatarOpen(true);
+                }}
+              >
+                <Avatar uri={profile.avatar_url} name={profile.display_name} size={96} />
+              </Pressable>
+              <View className="flex-1">
+                <Text className="text-xl font-semibold text-ink dark:text-white" style={font.semibold}>
+                  {profile.display_name}
+                </Text>
+                <Text className="text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
+                  @{profile.username}
+                </Text>
+                <View className="mt-3 flex-row gap-6">
+                  <View className="items-center">
+                    <Text className="text-lg font-semibold text-ink dark:text-white" style={font.semibold}>
+                      {formatCount(stats.posts)}
+                    </Text>
+                    <Text className="text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
+                      Posts
+                    </Text>
+                  </View>
+                  <View className="items-center">
+                    <Text className="text-lg font-semibold text-ink dark:text-white" style={font.semibold}>
+                      {formatCount(stats.followers)}
+                    </Text>
+                    <Text className="text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
+                      Followers
+                    </Text>
+                  </View>
+                  <View className="items-center">
+                    <Text className="text-lg font-semibold text-ink dark:text-white" style={font.semibold}>
+                      {formatCount(stats.following)}
+                    </Text>
+                    <Text className="text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
+                      Following
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
 
-          {profile.bio ? (
-            <Text className="mt-4 text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
-              {profile.bio}
-            </Text>
-          ) : null}
+            {profile.bio ? (
+              <Text className="mt-4 text-sm text-ink-600 dark:text-slate-400" style={font.regular}>
+                {profile.bio}
+              </Text>
+            ) : null}
 
-          {!isSelf ? (
-            <View className="mt-6">
-              <Button
-                label={following ? 'Following' : 'Follow'}
-                variant={following ? 'secondary' : 'primary'}
-                onPress={toggleFollow}
-              />
+            {!isSelf ? (
+              <View className="mt-6">
+                <Button
+                  label={following ? 'Following' : 'Follow'}
+                  variant={following ? 'secondary' : 'primary'}
+                  onPress={toggleFollow}
+                />
+              </View>
+            ) : null}
+
+            <View className="mt-6 h-px bg-ink-300/80 dark:bg-slate-600/70" />
+
+            <View className="mt-8">
+              {posts.length === 0 ? (
+                <EmptyState title="No posts yet" subtitle="This user hasn't shared any meals." />
+              ) : (
+                <PostGrid
+                  posts={posts}
+                  onPress={(post) => navigation.navigate('PostDetail', { post })}
+                  scrollEnabled={false}
+                />
+              )}
             </View>
-          ) : null}
-
-          <View className="mt-6 h-px bg-ink-300/80 dark:bg-slate-600/70" />
-
-          <View className="mt-8">
-            {posts.length === 0 ? (
-              <EmptyState title="No posts yet" subtitle="This user hasn't shared any meals." />
-            ) : (
-              <PostGrid
-                posts={posts}
-                onPress={(post) => navigation.navigate('PostDetail', { post })}
-                scrollEnabled={false}
-              />
-            )}
           </View>
-        </View>
-      ) : (
-        <EmptyState title="User not found" subtitle="Try another profile." />
-      )}
+        ) : (
+          <EmptyState title="User not found" subtitle="Try another profile." />
+        )}
 
-      <View className="h-24" />
-    </ScrollView>
+        <View className="h-24" />
+      </ScrollView>
+
+      <Modal visible={avatarOpen} transparent animationType="fade" onRequestClose={() => setAvatarOpen(false)}>
+        <Pressable className="flex-1 items-center justify-center bg-black/80 px-6" onPress={() => setAvatarOpen(false)}>
+          {profile?.avatar_url ? (
+            <Image
+              source={{ uri: profile.avatar_url }}
+              style={{ width: 260, height: 260, borderRadius: 130 }}
+              resizeMode="cover"
+            />
+          ) : null}
+        </Pressable>
+      </Modal>
+    </View>
   );
 }
